@@ -39,3 +39,10 @@ export const UpdateProfileInput = inputObjectType({
     t.nullable.Upload('avatar')
   },
 })
+
+export const FollowUserInput = inputObjectType({
+  name: 'FollowUserInput',
+  definition(t) {
+    t.nonNull.int('id')
+  },
+})

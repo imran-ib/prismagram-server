@@ -51,6 +51,9 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  FollowUserInput: { // input type
+    id: number; // Int!
+  }
   UpdateUsersProfile: { // input type
     avatar?: NexusGenScalars['Upload'] | null; // Upload
     bio?: string | null; // String
@@ -143,6 +146,8 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     CreateUser: NexusGenRootTypes['User'] | null; // User
+    FollowUser: NexusGenRootTypes['User'] | null; // User
+    UnFollowUser: NexusGenRootTypes['User'] | null; // User
     UpdateUsersProfiles: NexusGenRootTypes['User'] | null; // User
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
@@ -177,6 +182,8 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     CreateUser: 'User'
+    FollowUser: 'User'
+    UnFollowUser: 'User'
     UpdateUsersProfiles: 'User'
     UserLogin: 'AuthPayload'
   }
@@ -201,6 +208,12 @@ export interface NexusGenArgTypes {
   Mutation: {
     CreateUser: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
+    }
+    FollowUser: { // args
+      data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
+    }
+    UnFollowUser: { // args
+      data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
     }
     UpdateUsersProfiles: { // args
       data: NexusGenInputs['UpdateUsersProfile']; // UpdateUsersProfile!

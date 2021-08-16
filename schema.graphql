@@ -20,8 +20,18 @@ type File {
   path: String
 }
 
+input FollowUserInput {
+  id: Int!
+}
+
 type Mutation {
   CreateUser(data: UserCreateInput!): User
+
+  """Follow Users"""
+  FollowUser(data: FollowUserInput!): User
+
+  """UnFollow Users"""
+  UnFollowUser(data: FollowUserInput!): User
 
   """User can update their Profile"""
   UpdateUsersProfiles(data: UpdateUsersProfile!): User
