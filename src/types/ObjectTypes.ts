@@ -36,7 +36,6 @@ export const UpdateProfileInput = inputObjectType({
     t.nullable.string('username')
     t.nullable.string('email')
     t.nullable.string('bio')
-    t.nullable.string('avatar')
-    
+    t.nullable.Upload('avatar')
   },
 })

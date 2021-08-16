@@ -8,8 +8,8 @@ export const User = objectType({
     t.nonNull.string('firstName')
     t.nonNull.string('email')
     t.nonNull.string('username')
-    t.nonNull.string('bio')
-    t.nonNull.string('avatar')
+    t.nullable.string('bio')
+    t.nullable.string('avatar')
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
   },

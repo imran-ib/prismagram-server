@@ -12,6 +12,14 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type File {
+  encoding: String
+  filename: String
+  id: ID
+  mimetype: String
+  path: String
+}
+
 type Mutation {
   CreateUser(data: UserCreateInput!): User
 
@@ -31,7 +39,7 @@ type Query {
 
 """"""
 input UpdateUsersProfile {
-  avatar: String
+  avatar: Upload
   bio: String
   email: String
   firstName: String
@@ -44,8 +52,8 @@ input UpdateUsersProfile {
 scalar Upload
 
 type User {
-  avatar: String!
-  bio: String!
+  avatar: String
+  bio: String
   createdAt: DateTime!
   email: String!
   firstName: String!

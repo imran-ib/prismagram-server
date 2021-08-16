@@ -1,4 +1,4 @@
-import { makeSchema, asNexusMethod, connectionPlugin } from 'nexus'
+import { makeSchema, connectionPlugin } from 'nexus'
 import { DateTimeResolver } from 'graphql-scalars'
 import { createContext, Context } from './context'
 import { nexusPrisma } from 'nexus-plugin-prisma'

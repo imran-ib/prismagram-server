@@ -12,6 +12,10 @@ declare global {
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
     date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    Upload<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Upload";
   }
 }
 declare global {
@@ -20,6 +24,10 @@ declare global {
      * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
      */
     date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    Upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -44,7 +52,7 @@ declare global {
 
 export interface NexusGenInputs {
   UpdateUsersProfile: { // input type
-    avatar?: string | null; // String
+    avatar?: NexusGenScalars['Upload'] | null; // Upload
     bio?: string | null; // String
     email?: string | null; // String
     firstName?: string | null; // String
@@ -89,11 +97,18 @@ export interface NexusGenObjects {
     UAT?: string | null; // String
     user?: NexusGenRootTypes['User'] | null; // User
   }
+  File: { // root type
+    encoding?: string | null; // String
+    filename?: string | null; // String
+    id?: string | null; // ID
+    mimetype?: string | null; // String
+    path?: string | null; // String
+  }
   Mutation: {};
   Query: {};
   User: { // root type
-    avatar: string; // String!
-    bio: string; // String!
+    avatar?: string | null; // String
+    bio?: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     firstName: string; // String!
@@ -119,6 +134,13 @@ export interface NexusGenFieldTypes {
     UAT: string | null; // String
     user: NexusGenRootTypes['User'] | null; // User
   }
+  File: { // field return type
+    encoding: string | null; // String
+    filename: string | null; // String
+    id: string | null; // ID
+    mimetype: string | null; // String
+    path: string | null; // String
+  }
   Mutation: { // field return type
     CreateUser: NexusGenRootTypes['User'] | null; // User
     UpdateUsersProfiles: NexusGenRootTypes['User'] | null; // User
@@ -129,8 +151,8 @@ export interface NexusGenFieldTypes {
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
-    avatar: string; // String!
-    bio: string; // String!
+    avatar: string | null; // String
+    bio: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     firstName: string; // String!
@@ -145,6 +167,13 @@ export interface NexusGenFieldTypeNames {
   AuthPayload: { // field return type name
     UAT: 'String'
     user: 'User'
+  }
+  File: { // field return type name
+    encoding: 'String'
+    filename: 'String'
+    id: 'ID'
+    mimetype: 'String'
+    path: 'String'
   }
   Mutation: { // field return type name
     CreateUser: 'User'
