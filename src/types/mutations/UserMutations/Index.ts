@@ -1,7 +1,7 @@
 import { mutationType } from 'nexus'
 import { UpdateUsersProfiles } from './EditUsersProfileMutation'
 import { UserAuthMutations } from './UserAuthMutations'
-import { FollowUser } from './FollowUsers'
+import { FollowUser } from './FollowUsersMutation'
 
 export const Mutation = mutationType({
   definition(t) {

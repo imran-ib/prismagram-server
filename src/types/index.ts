@@ -1,5 +1,7 @@
 export * from './models/User'
 export * from './Models/AuthPayload'
+export * from './Models/GetFollowersPayload'
+export * from './Models/GetFollowingPayload'
 export * from './Models/DateTime'
 export * from './Models/Upload'
 export * from './mutations'

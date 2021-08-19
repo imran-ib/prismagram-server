@@ -12,6 +12,7 @@ async function startServer() {
   })
 
   await server.start()
+  server.graphqlPath = '/server'
 
   const app = express()
 

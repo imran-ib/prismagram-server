@@ -46,3 +46,25 @@ export const FollowUserInput = inputObjectType({
     t.nonNull.int('id')
   },
 })
+export const GetFollowUserInput = inputObjectType({
+  name: 'GetFollowUserInput',
+  definition(t) {
+    t.nonNull.int('id')
+    t.nonNull.int('page')
+  },
+})
+export const GetFollowingUserInput = inputObjectType({
+  name: 'GetFollowingUserInput',
+  definition(t) {
+    t.nonNull.int('id')
+    t.nullable.int('cursor')
+  },
+})
+
+export const SearchUsersInput = inputObjectType({
+  name: 'SearchUsersInput',
+  definition(t) {
+    t.nonNull.string('term')
+    t.nullable.int('cursor')
+  },
+})

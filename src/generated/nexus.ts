@@ -54,6 +54,18 @@ export interface NexusGenInputs {
   FollowUserInput: { // input type
     id: number; // Int!
   }
+  GetFollowUserInput: { // input type
+    id: number; // Int!
+    page: number; // Int!
+  }
+  GetFollowingUserInput: { // input type
+    cursor?: number | null; // Int
+    id: number; // Int!
+  }
+  SearchUsersInput: { // input type
+    cursor?: number | null; // Int
+    term: string; // String!
+  }
   UpdateUsersProfile: { // input type
     avatar?: NexusGenScalars['Upload'] | null; // Upload
     bio?: string | null; // String
@@ -107,6 +119,14 @@ export interface NexusGenObjects {
     mimetype?: string | null; // String
     path?: string | null; // String
   }
+  GetFollowersPayload: { // root type
+    TotalPages?: number | null; // Int
+    user?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+  }
+  GetFollowingPayload: { // root type
+    cursor?: number | null; // Int
+    user?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+  }
   Mutation: {};
   Query: {};
   User: { // root type
@@ -144,6 +164,14 @@ export interface NexusGenFieldTypes {
     mimetype: string | null; // String
     path: string | null; // String
   }
+  GetFollowersPayload: { // field return type
+    TotalPages: number | null; // Int
+    user: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+  }
+  GetFollowingPayload: { // field return type
+    cursor: number | null; // Int
+    user: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+  }
   Mutation: { // field return type
     CreateUser: NexusGenRootTypes['User'] | null; // User
     FollowUser: NexusGenRootTypes['User'] | null; // User
@@ -152,10 +180,18 @@ export interface NexusGenFieldTypes {
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
   Query: { // field return type
+    CurrentUser: NexusGenRootTypes['User'] | null; // User
+    GetFollowersQuery: NexusGenRootTypes['GetFollowersPayload'] | null; // GetFollowersPayload
+    GetFollowingQuery: NexusGenRootTypes['GetFollowingPayload'] | null; // GetFollowingPayload
     GetUserProfile: NexusGenRootTypes['User'] | null; // User
+    SearchUser: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
+    FollowersCount: number | null; // Int
+    FollowingCount: number | null; // Int
+    ISFollowing: boolean | null; // Boolean
+    IsMe: boolean | null; // Boolean
     avatar: string | null; // String
     bio: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -180,6 +216,14 @@ export interface NexusGenFieldTypeNames {
     mimetype: 'String'
     path: 'String'
   }
+  GetFollowersPayload: { // field return type name
+    TotalPages: 'Int'
+    user: 'User'
+  }
+  GetFollowingPayload: { // field return type name
+    cursor: 'Int'
+    user: 'User'
+  }
   Mutation: { // field return type name
     CreateUser: 'User'
     FollowUser: 'User'
@@ -188,10 +232,18 @@ export interface NexusGenFieldTypeNames {
     UserLogin: 'AuthPayload'
   }
   Query: { // field return type name
+    CurrentUser: 'User'
+    GetFollowersQuery: 'GetFollowersPayload'
+    GetFollowingQuery: 'GetFollowingPayload'
     GetUserProfile: 'User'
+    SearchUser: 'User'
     users: 'User'
   }
   User: { // field return type name
+    FollowersCount: 'Int'
+    FollowingCount: 'Int'
+    ISFollowing: 'Boolean'
+    IsMe: 'Boolean'
     avatar: 'String'
     bio: 'String'
     createdAt: 'DateTime'
@@ -223,8 +275,17 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    GetFollowersQuery: { // args
+      data: NexusGenInputs['GetFollowUserInput']; // GetFollowUserInput!
+    }
+    GetFollowingQuery: { // args
+      data: NexusGenInputs['GetFollowingUserInput']; // GetFollowingUserInput!
+    }
     GetUserProfile: { // args
       username: string; // String!
+    }
+    SearchUser: { // args
+      data: NexusGenInputs['SearchUsersInput']; // SearchUsersInput!
     }
     users: { // args
       after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput

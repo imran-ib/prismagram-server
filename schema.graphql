@@ -24,6 +24,26 @@ input FollowUserInput {
   id: Int!
 }
 
+input GetFollowUserInput {
+  id: Int!
+  page: Int!
+}
+
+type GetFollowersPayload {
+  TotalPages: Int
+  user: [User]
+}
+
+type GetFollowingPayload {
+  cursor: Int
+  user: [User]
+}
+
+input GetFollowingUserInput {
+  cursor: Int
+  id: Int!
+}
+
 type Mutation {
   CreateUser(data: UserCreateInput!): User
 
@@ -39,12 +59,24 @@ type Mutation {
 }
 
 type Query {
+  CurrentUser: User
+  GetFollowersQuery(data: GetFollowUserInput!): GetFollowersPayload
+
+  """Get The Users Who Are Following Current User"""
+  GetFollowingQuery(data: GetFollowingUserInput!): GetFollowingPayload
+
   """Get Users Profile"""
   GetUserProfile(
     """Find User with unique username"""
     username: String!
   ): User
+  SearchUser(data: SearchUsersInput!): [User]
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
+}
+
+input SearchUsersInput {
+  cursor: Int
+  term: String!
 }
 
 """"""
@@ -62,6 +94,10 @@ input UpdateUsersProfile {
 scalar Upload
 
 type User {
+  FollowersCount: Int
+  FollowingCount: Int
+  ISFollowing: Boolean
+  IsMe: Boolean
   avatar: String
   bio: String
   createdAt: DateTime!
