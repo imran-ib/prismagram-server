@@ -45,7 +45,8 @@ input GetFollowingUserInput {
 }
 
 type HashTag {
-  Photo: [Photo]
+  PhotoCount: Int
+  Photos(cursor: Int, take: Int): [Photo]
   createdAt: DateTime!
   hashtag: String!
   id: Int!
@@ -68,13 +69,14 @@ type Mutation {
 }
 
 type Photo {
-  HashTag: [HashTag]
-  User: User
   caption: String
   createdAt: DateTime!
   file: String
+  hashtag: [HashTag]
   id: Int!
   updatedAt: DateTime!
+  user: User!
+  userId: Int!
 }
 
 type Query {
@@ -83,6 +85,8 @@ type Query {
 
   """Get The Users Who Are Following Current User"""
   GetFollowingQuery(data: GetFollowingUserInput!): GetFollowingPayload
+  GetHashtag(hashtag: String!, page: Int): HashTag
+  GetPhoto(id: Int!): Photo
 
   """Get Users Profile"""
   GetUserProfile(
@@ -122,8 +126,10 @@ input UploadPhotoInput {
 type User {
   FollowersCount: Int
   FollowingCount: Int
+  Hashtags: [HashTag]
   ISFollowing: Boolean
   IsMe: Boolean
+  Photos: [Photo]
   avatar: String
   bio: String
   createdAt: DateTime!

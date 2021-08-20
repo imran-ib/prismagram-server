@@ -13,6 +13,8 @@ export const User = objectType({
     t.nonNull.string('username')
     t.nullable.string('bio')
     t.nullable.string('avatar')
+    t.list.field('Photos', { type: 'Photo' })
+    t.list.field('Hashtags', { type: 'HashTag' })
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     //Computed Fields

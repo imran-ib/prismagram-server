@@ -132,7 +132,6 @@ export interface NexusGenObjects {
     user?: Array<NexusGenRootTypes['User'] | null> | null; // [User]
   }
   HashTag: { // root type
-    Photo?: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     hashtag: string; // String!
     id: number; // Int!
@@ -140,16 +139,19 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Photo: { // root type
-    HashTag?: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
-    User?: NexusGenRootTypes['User'] | null; // User
     caption?: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     file?: string | null; // String
+    hashtag?: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User']; // User!
+    userId: number; // Int!
   }
   Query: {};
   User: { // root type
+    Hashtags?: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
+    Photos?: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     avatar?: string | null; // String
     bio?: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -193,7 +195,8 @@ export interface NexusGenFieldTypes {
     user: Array<NexusGenRootTypes['User'] | null> | null; // [User]
   }
   HashTag: { // field return type
-    Photo: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
+    PhotoCount: number | null; // Int
+    Photos: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     hashtag: string; // String!
     id: number; // Int!
@@ -208,18 +211,21 @@ export interface NexusGenFieldTypes {
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
   Photo: { // field return type
-    HashTag: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
-    User: NexusGenRootTypes['User'] | null; // User
     caption: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     file: string | null; // String
+    hashtag: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User']; // User!
+    userId: number; // Int!
   }
   Query: { // field return type
     CurrentUser: NexusGenRootTypes['User'] | null; // User
     GetFollowersQuery: NexusGenRootTypes['GetFollowersPayload'] | null; // GetFollowersPayload
     GetFollowingQuery: NexusGenRootTypes['GetFollowingPayload'] | null; // GetFollowingPayload
+    GetHashtag: NexusGenRootTypes['HashTag'] | null; // HashTag
+    GetPhoto: NexusGenRootTypes['Photo'] | null; // Photo
     GetUserProfile: NexusGenRootTypes['User'] | null; // User
     SearchUser: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     users: NexusGenRootTypes['User'][]; // [User!]!
@@ -227,8 +233,10 @@ export interface NexusGenFieldTypes {
   User: { // field return type
     FollowersCount: number | null; // Int
     FollowingCount: number | null; // Int
+    Hashtags: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
     ISFollowing: boolean | null; // Boolean
     IsMe: boolean | null; // Boolean
+    Photos: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     avatar: string | null; // String
     bio: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -262,7 +270,8 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
   }
   HashTag: { // field return type name
-    Photo: 'Photo'
+    PhotoCount: 'Int'
+    Photos: 'Photo'
     createdAt: 'DateTime'
     hashtag: 'String'
     id: 'Int'
@@ -277,18 +286,21 @@ export interface NexusGenFieldTypeNames {
     UserLogin: 'AuthPayload'
   }
   Photo: { // field return type name
-    HashTag: 'HashTag'
-    User: 'User'
     caption: 'String'
     createdAt: 'DateTime'
     file: 'String'
+    hashtag: 'HashTag'
     id: 'Int'
     updatedAt: 'DateTime'
+    user: 'User'
+    userId: 'Int'
   }
   Query: { // field return type name
     CurrentUser: 'User'
     GetFollowersQuery: 'GetFollowersPayload'
     GetFollowingQuery: 'GetFollowingPayload'
+    GetHashtag: 'HashTag'
+    GetPhoto: 'Photo'
     GetUserProfile: 'User'
     SearchUser: 'User'
     users: 'User'
@@ -296,8 +308,10 @@ export interface NexusGenFieldTypeNames {
   User: { // field return type name
     FollowersCount: 'Int'
     FollowingCount: 'Int'
+    Hashtags: 'HashTag'
     ISFollowing: 'Boolean'
     IsMe: 'Boolean'
+    Photos: 'Photo'
     avatar: 'String'
     bio: 'String'
     createdAt: 'DateTime'
@@ -311,6 +325,12 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  HashTag: {
+    Photos: { // args
+      cursor?: number | null; // Int
+      take?: number | null; // Int
+    }
+  }
   Mutation: {
     CreateUser: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
@@ -337,6 +357,13 @@ export interface NexusGenArgTypes {
     }
     GetFollowingQuery: { // args
       data: NexusGenInputs['GetFollowingUserInput']; // GetFollowingUserInput!
+    }
+    GetHashtag: { // args
+      hashtag: string; // String!
+      page?: number | null; // Int
+    }
+    GetPhoto: { // args
+      id: number; // Int!
     }
     GetUserProfile: { // args
       username: string; // String!
