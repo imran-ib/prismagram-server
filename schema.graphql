@@ -53,11 +53,20 @@ type HashTag {
   updatedAt: DateTime!
 }
 
+type Like {
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   CreateUser(data: UserCreateInput!): User
 
   """Follow Users"""
   FollowUser(data: FollowUserInput!): User
+
+  """"""
+  TogglePhotoLike(photoId: Int!): Like
 
   """UnFollow Users"""
   UnFollowUser(data: FollowUserInput!): User
@@ -72,6 +81,8 @@ type Mutation {
 }
 
 type Photo {
+  LikeCount: Int
+  LikedByMe: Boolean
   caption: String
   createdAt: DateTime!
   file: String

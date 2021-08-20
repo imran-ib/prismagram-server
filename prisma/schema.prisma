@@ -27,6 +27,7 @@ model User {
   photos                   Photo[]
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
+  likes                    Like[]
 
   @@index([email, username])
 }
@@ -38,6 +39,7 @@ model Photo {
   file      String
   caption   String?
   hashtag   Hashtag[]
+  likes     Like[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -48,4 +50,16 @@ model Hashtag {
   Photos    Photo[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  photo     Photo    @relation(fields: [photoId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  photoId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, photoId])
 }

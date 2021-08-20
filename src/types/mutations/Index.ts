@@ -4,6 +4,7 @@ import { UserAuthMutations } from '../mutations/UserMutations/UserAuthMutations'
 import { FollowUser } from '../mutations/UserMutations/FollowUsersMutation'
 import { UploadPhotoMutations } from '../mutations/PhotosMutations/UploadPhotoMutation'
 import { UpdatePhotoMutation } from '../mutations/PhotosMutations/UpdatePhotoMutation'
+import { TogglePhotoLikeMutation } from '../mutations/PhotosMutations/TogglePhotoLikeMutation'
 
 export const UserMutation = mutationType({
   definition(t) {
@@ -12,5 +13,6 @@ export const UserMutation = mutationType({
     FollowUser(t)
     UploadPhotoMutations(t)
     UpdatePhotoMutation(t)
+    TogglePhotoLikeMutation(t)
   },
 })

@@ -137,6 +137,11 @@ export interface NexusGenObjects {
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
+  Like: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Mutation: {};
   Photo: { // root type
     caption?: string | null; // String
@@ -202,9 +207,15 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
+  Like: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Mutation: { // field return type
     CreateUser: NexusGenRootTypes['User'] | null; // User
     FollowUser: NexusGenRootTypes['User'] | null; // User
+    TogglePhotoLike: NexusGenRootTypes['Like'] | null; // Like
     UnFollowUser: NexusGenRootTypes['User'] | null; // User
     UpdatePhoto: NexusGenRootTypes['Photo'] | null; // Photo
     UpdateUsersProfiles: NexusGenRootTypes['User'] | null; // User
@@ -212,6 +223,8 @@ export interface NexusGenFieldTypes {
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
   Photo: { // field return type
+    LikeCount: number | null; // Int
+    LikedByMe: boolean | null; // Boolean
     caption: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     file: string | null; // String
@@ -279,9 +292,15 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     updatedAt: 'DateTime'
   }
+  Like: { // field return type name
+    createdAt: 'DateTime'
+    id: 'Int'
+    updatedAt: 'DateTime'
+  }
   Mutation: { // field return type name
     CreateUser: 'User'
     FollowUser: 'User'
+    TogglePhotoLike: 'Like'
     UnFollowUser: 'User'
     UpdatePhoto: 'Photo'
     UpdateUsersProfiles: 'User'
@@ -289,6 +308,8 @@ export interface NexusGenFieldTypeNames {
     UserLogin: 'AuthPayload'
   }
   Photo: { // field return type name
+    LikeCount: 'Int'
+    LikedByMe: 'Boolean'
     caption: 'String'
     createdAt: 'DateTime'
     file: 'String'
@@ -341,6 +362,9 @@ export interface NexusGenArgTypes {
     }
     FollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
+    }
+    TogglePhotoLike: { // args
+      photoId: number; // Int!
     }
     UnFollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!

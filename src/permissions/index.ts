@@ -37,6 +37,7 @@ export const permissions = shield({
     FollowUser: rules.isAuthenticatedUser,
     UnFollowUser: rules.isAuthenticatedUser,
     UploadPhoto: rules.isAuthenticatedUser,
+    TogglePhotoLike: rules.isAuthenticatedUser,
     UpdatePhoto: and(rules.isAuthenticatedUser, rules.isPhotoOwner),
   },
 })
