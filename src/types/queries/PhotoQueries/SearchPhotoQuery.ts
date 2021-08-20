@@ -3,9 +3,9 @@ import { ObjectDefinitionBlock } from 'nexus/dist/blocks'
 import { Context } from '../../../context'
 import { SearchInput } from '../../ObjectTypes'
 
-export const SearchUserQuery = (t: ObjectDefinitionBlock<'Query'>) => {
-  t.list.field('SearchUser', {
-    type: 'User',
+export const SearchPhotoQuery = (t: ObjectDefinitionBlock<'Query'>) => {
+  t.list.field('SearchPhoto', {
+    type: 'Photo',
     args: {
       data: nonNull(
         arg({
@@ -13,16 +13,15 @@ export const SearchUserQuery = (t: ObjectDefinitionBlock<'Query'>) => {
         }),
       ),
     },
-    resolve: async (_, { data: { term, cursor } }, ctx: Context) => {
+    resolve: async (_, { data: { cursor, term } }, ctx: Context) => {
       try {
         if (!term) return new Error(`You Must Provide a Search Term`)
         if (term.trim() === '')
           return new Error(`You Must Provide a Search Term`)
-        const Result = await ctx.prisma.user.findMany({
+        const Result = await ctx.prisma.photo.findMany({
           where: {
-            username: {
-              startsWith: term.toLowerCase(),
-              mode: 'insensitive',
+            caption: {
+              contains: term,
             },
           },
           take: 5,

@@ -134,7 +134,7 @@ export function slugify(str: string): string {
   return str
 }
 
-export function GetHashtags(searchText: string | null | undefined) {
-  var regexp = /\B\#\w\w+\b/g
-  return searchText?.match(regexp)
+export function GetHashtags(searchText: String) {
+  const regexp = /\B\#\w\w+\b/g
+  return searchText.match(regexp)
 }

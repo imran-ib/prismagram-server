@@ -1,4 +1,4 @@
-import { rule, shield } from 'graphql-shield'
+import { and, rule, shield } from 'graphql-shield'
 import { getUserId } from '../utils'
 import { Context } from '../context'
 
@@ -11,16 +11,18 @@ const rules = {
     if (!user) return new Error(`User not Found`)
     return Boolean(userId)
   }),
-  isPostOwner: rule()(async (_parent, args, context) => {
+  isPhotoOwner: rule()(async (_parent, args, context: Context) => {
+    //args are coming from mutation (whichever mutations are using this rule)
     const userId = getUserId(context)
-    const author = await context.prisma.post
+    const owner = await context.prisma.photo
       .findUnique({
         where: {
           id: Number(args.id),
         },
       })
-      .author()
-    return userId === author.id
+      .user()
+
+    return userId === owner?.id
   }),
 }
 
@@ -35,5 +37,6 @@ export const permissions = shield({
     FollowUser: rules.isAuthenticatedUser,
     UnFollowUser: rules.isAuthenticatedUser,
     UploadPhoto: rules.isAuthenticatedUser,
+    UpdatePhoto: and(rules.isAuthenticatedUser, rules.isPhotoOwner),
   },
 })

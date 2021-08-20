@@ -56,7 +56,7 @@ export const GetFollowingUserInput = inputObjectType({
   },
 })
 
-export const SearchUsersInput = inputObjectType({
+export const SearchInput = inputObjectType({
   name: 'SearchUsersInput',
   definition(t) {
     t.nonNull.string('term', {

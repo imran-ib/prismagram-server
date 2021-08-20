@@ -206,6 +206,7 @@ export interface NexusGenFieldTypes {
     CreateUser: NexusGenRootTypes['User'] | null; // User
     FollowUser: NexusGenRootTypes['User'] | null; // User
     UnFollowUser: NexusGenRootTypes['User'] | null; // User
+    UpdatePhoto: NexusGenRootTypes['Photo'] | null; // Photo
     UpdateUsersProfiles: NexusGenRootTypes['User'] | null; // User
     UploadPhoto: NexusGenRootTypes['Photo'] | null; // Photo
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
@@ -227,6 +228,7 @@ export interface NexusGenFieldTypes {
     GetHashtag: NexusGenRootTypes['HashTag'] | null; // HashTag
     GetPhoto: NexusGenRootTypes['Photo'] | null; // Photo
     GetUserProfile: NexusGenRootTypes['User'] | null; // User
+    SearchPhoto: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     SearchUser: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
@@ -281,6 +283,7 @@ export interface NexusGenFieldTypeNames {
     CreateUser: 'User'
     FollowUser: 'User'
     UnFollowUser: 'User'
+    UpdatePhoto: 'Photo'
     UpdateUsersProfiles: 'User'
     UploadPhoto: 'Photo'
     UserLogin: 'AuthPayload'
@@ -302,6 +305,7 @@ export interface NexusGenFieldTypeNames {
     GetHashtag: 'HashTag'
     GetPhoto: 'Photo'
     GetUserProfile: 'User'
+    SearchPhoto: 'Photo'
     SearchUser: 'User'
     users: 'User'
   }
@@ -341,6 +345,10 @@ export interface NexusGenArgTypes {
     UnFollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
     }
+    UpdatePhoto: { // args
+      caption?: string | null; // String
+      id: number; // Int!
+    }
     UpdateUsersProfiles: { // args
       data: NexusGenInputs['UpdateUsersProfile']; // UpdateUsersProfile!
     }
@@ -367,6 +375,9 @@ export interface NexusGenArgTypes {
     }
     GetUserProfile: { // args
       username: string; // String!
+    }
+    SearchPhoto: { // args
+      data: NexusGenInputs['SearchUsersInput']; // SearchUsersInput!
     }
     SearchUser: { // args
       data: NexusGenInputs['SearchUsersInput']; // SearchUsersInput!

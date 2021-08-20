@@ -14,6 +14,9 @@ export const HashTag = objectType({
       resolve(root, { take, cursor }, ctx: Context) {
         //Way -> 1 You can resolve the photo with pagination here
         //Way -> 2 in hashtag query you can get nested arguments in 'info' argument and resolve there
+        const userId = getUserId(ctx)
+        // user has to be logged in. doesn't have to by particular user. any user who is logged in can view photos of hashtag
+        if (!userId) return
         return ctx.prisma.photo.findMany({
           where: {
             hashtag: {
@@ -32,6 +35,7 @@ export const HashTag = objectType({
     t.field('PhotoCount', {
       type: 'Int',
       resolve: (root, _, ctx: Context) => {
+        const userId = getUserId(ctx)
         return ctx.prisma.photo.count({
           where: {
             hashtag: {

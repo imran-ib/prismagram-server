@@ -3,6 +3,7 @@ import { UsersQueries } from './UserQueries/UserQueries'
 import { FollowUserQueries } from './UserQueries/FollowUserQueries'
 import { SearchUserQuery } from './UserQueries/SearchUsersQuery'
 import { GetPhotoQuery } from './PhotoQueries/GetPhoto'
+import { SearchPhotoQuery } from './PhotoQueries/SearchPhotoQuery'
 import { GetHashtagsQuery } from './HashTagsQueries/GetHashtagsQuery'
 
 export const Query = queryType({
@@ -13,5 +14,6 @@ export const Query = queryType({
     SearchUserQuery(t)
     GetPhotoQuery(t)
     GetHashtagsQuery(t)
+    SearchPhotoQuery(t)
   },
 })

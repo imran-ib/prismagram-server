@@ -62,6 +62,9 @@ type Mutation {
   """UnFollow Users"""
   UnFollowUser(data: FollowUserInput!): User
 
+  """Update photo's caption and update hashtags"""
+  UpdatePhoto(caption: String, id: Int!): Photo
+
   """User can update their Profile"""
   UpdateUsersProfiles(data: UpdateUsersProfile!): User
   UploadPhoto(data: UploadPhotoInput!): Photo
@@ -93,6 +96,7 @@ type Query {
     """Find User with unique username"""
     username: String!
   ): User
+  SearchPhoto(data: SearchUsersInput!): [Photo]
   SearchUser(data: SearchUsersInput!): [User]
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
 }

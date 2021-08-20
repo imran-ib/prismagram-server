@@ -1,4 +1,3 @@
-import { Photo } from '@prisma/client'
 import { arg, nonNull } from 'nexus'
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks'
 import { Context } from '../../../context'
