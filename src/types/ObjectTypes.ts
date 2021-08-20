@@ -14,11 +14,6 @@ export const UserCreateInput = inputObjectType({
 export const UserLoginInput = inputObjectType({
   name: 'UserLogin',
   description: 'Login user in with jwt token',
-  /**
-   *
-   * @param t User should be able to login with username or email
-   */
-
   definition(t) {
     t.nullable.string('username')
     t.nullable.string('email')
@@ -64,7 +59,17 @@ export const GetFollowingUserInput = inputObjectType({
 export const SearchUsersInput = inputObjectType({
   name: 'SearchUsersInput',
   definition(t) {
-    t.nonNull.string('term')
+    t.nonNull.string('term', {
+      description: 'Provide Text To Search Users From Database',
+    })
     t.nullable.int('cursor')
+  },
+})
+
+export const UploadPhotoInput = inputObjectType({
+  name: 'UploadPhotoInput',
+  definition(t) {
+    t.nonNull.string('photo')
+    t.nullable.string('caption')
   },
 })

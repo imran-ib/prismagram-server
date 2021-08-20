@@ -133,3 +133,8 @@ export function slugify(str: string): string {
 
   return str
 }
+
+export function GetHashtags(searchText: string | null | undefined) {
+  var regexp = /\B\#\w\w+\b/g
+  return searchText?.match(regexp)
+}

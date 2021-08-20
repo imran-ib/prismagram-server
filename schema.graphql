@@ -44,6 +44,14 @@ input GetFollowingUserInput {
   id: Int!
 }
 
+type HashTag {
+  Photo: [Photo]
+  createdAt: DateTime!
+  hashtag: String!
+  id: Int!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   CreateUser(data: UserCreateInput!): User
 
@@ -55,7 +63,18 @@ type Mutation {
 
   """User can update their Profile"""
   UpdateUsersProfiles(data: UpdateUsersProfile!): User
+  UploadPhoto(data: UploadPhotoInput!): Photo
   UserLogin(data: UserLogin!): AuthPayload
+}
+
+type Photo {
+  HashTag: [HashTag]
+  User: User
+  caption: String
+  createdAt: DateTime!
+  file: String
+  id: Int!
+  updatedAt: DateTime!
 }
 
 type Query {
@@ -76,6 +95,8 @@ type Query {
 
 input SearchUsersInput {
   cursor: Int
+
+  """Provide Text To Search Users From Database"""
   term: String!
 }
 
@@ -92,6 +113,11 @@ input UpdateUsersProfile {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input UploadPhotoInput {
+  caption: String
+  photo: String!
+}
 
 type User {
   FollowersCount: Int

@@ -4,28 +4,48 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-   url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id                            Int     @id @default(autoincrement())
-  email                         String  @unique
-  username                      String  @unique
-  firstName                     String
-  lastName                      String?
-  bio                           String?
-  avatar                        String?   @default("https://res.cloudinary.com/iib-webdevs/image/upload/v1601031013/DontDeleteMe/pngtree-businessman-user-avatar-free-vector-png-image_1538405.jpg")
-  password                      String
-  OneTimePassword               Int?
-  PasswordResetTokenExpiry      Float?
-  PasswordResetToken            String?
-  isActive                      Boolean    @default(false)
-  lastSeen                      DateTime   @default(now())
-  lastTyped                     DateTime   @default(now())
-  followedBy                    User[]   @relation("UserFollows", references: [id])
-  following                     User[]   @relation("UserFollows", references: [id])
-  createdAt                     DateTime @default(now())
-  updatedAt                     DateTime @updatedAt
-  @@index([email, username, firstName, lastName])
+  id                       Int      @id @default(autoincrement())
+  email                    String   @unique
+  username                 String   @unique
+  firstName                String
+  lastName                 String?
+  bio                      String?
+  avatar                   String?  @default("https://res.cloudinary.com/iib-webdevs/image/upload/v1601031013/DontDeleteMe/pngtree-businessman-user-avatar-free-vector-png-image_1538405.jpg")
+  password                 String
+  OneTimePassword          Int?
+  PasswordResetTokenExpiry Float?
+  PasswordResetToken       String?
+  isActive                 Boolean  @default(false)
+  lastSeen                 DateTime @default(now())
+  lastTyped                DateTime @default(now())
+  followedBy               User[]   @relation("UserFollows", references: [id])
+  following                User[]   @relation("UserFollows", references: [id])
+  photos                   Photo[]
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@index([email, username])
 }
 
+model Photo {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  file      String
+  caption   String?
+  hashtag   Hashtag[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Hashtag {
+  id        Int      @id @default(autoincrement())
+  hashtag   String   @unique
+  Photos    Photo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

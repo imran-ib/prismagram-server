@@ -15,6 +15,9 @@ export const SearchUserQuery = (t: ObjectDefinitionBlock<'Query'>) => {
     },
     resolve: async (_, { data: { term, cursor } }, ctx: Context) => {
       try {
+        if (!term) return new Error(`You Must Provide a Search Term`)
+        if (term.trim() === '')
+          return new Error(`You Must Provide a Search Term`)
         const Result = await ctx.prisma.user.findMany({
           where: {
             username: {
