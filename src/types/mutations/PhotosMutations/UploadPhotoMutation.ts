@@ -1,6 +1,7 @@
 import { arg, nonNull } from 'nexus'
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks'
 import { Context } from '../../../context'
+import { Uploader } from '../../../shared/Shared.utls'
 import { GetHashtags, getUserId } from '../../../utils'
 import { UploadPhotoInput } from '../../ObjectTypes'
 
@@ -22,18 +23,20 @@ export const UploadPhotoMutations = (t: ObjectDefinitionBlock<'Mutation'>) => {
         if (caption) {
           hashtags = GetHashtags(caption)
         }
+        const FileUrl = await Uploader(photo, UserId, 'Upload')
         const PHOTO = await ctx.prisma.photo.create({
           data: {
-            file: photo,
+            file: FileUrl,
             caption,
-            ...(hashtags.length > 0 && {
-              hashtag: {
-                connectOrCreate: hashtags.map((tag: String) => ({
-                  where: { hashtag: tag },
-                  create: { hashtag: tag },
-                })),
-              },
-            }),
+            ...(hashtags &&
+              hashtags.length > 0 && {
+                hashtag: {
+                  connectOrCreate: hashtags.map((tag: String) => ({
+                    where: { hashtag: tag },
+                    create: { hashtag: tag },
+                  })),
+                },
+              }),
             user: { connect: { id: UserId } },
           },
         })

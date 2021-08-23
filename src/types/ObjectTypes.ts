@@ -69,7 +69,7 @@ export const SearchInput = inputObjectType({
 export const UploadPhotoInput = inputObjectType({
   name: 'UploadPhotoInput',
   definition(t) {
-    t.nonNull.string('photo')
+    t.nonNull.Upload('photo')
     t.nullable.string('caption')
   },
 })

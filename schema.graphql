@@ -7,6 +7,16 @@ type AuthPayload {
   user: User
 }
 
+type Comment {
+  IsMine: Boolean
+  createdAt: DateTime!
+  id: Int!
+  payload: String!
+  updatedAt: DateTime!
+  user: User
+  userId: Int!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -60,7 +70,11 @@ type Like {
 }
 
 type Mutation {
+  """Create New Comment For Photo"""
+  CreateComment(payload: String!, photoId: Int!): Comment
   CreateUser(data: UserCreateInput!): User
+  DeleteComment(id: Int!): Boolean
+  DeletePhoto(id: Int!): Boolean
 
   """Follow Users"""
   FollowUser(data: FollowUserInput!): User
@@ -70,6 +84,7 @@ type Mutation {
 
   """UnFollow Users"""
   UnFollowUser(data: FollowUserInput!): User
+  UpdateComment(commentId: Int!, payload: String!): Comment
 
   """Update photo's caption and update hashtags"""
   UpdatePhoto(caption: String, id: Int!): Photo
@@ -81,6 +96,9 @@ type Mutation {
 }
 
 type Photo {
+  Comment: [Comment]
+  CommentCount: Int
+  IsMine: Boolean
   LikeCount: Int
   LikedByMe: Boolean
   caption: String
@@ -95,18 +113,25 @@ type Photo {
 
 type Query {
   CurrentUser: User
+
+  """"""
+  Feeds(cursor: Int!): [Photo]
   GetFollowersQuery(data: GetFollowUserInput!): GetFollowersPayload
 
   """Get The Users Who Are Following Current User"""
   GetFollowingQuery(data: GetFollowingUserInput!): GetFollowingPayload
   GetHashtag(hashtag: String!, page: Int): HashTag
   GetPhoto(id: Int!): Photo
+  GetPhotoComments(cursor: Int, photoId: Int!): [Comment]
 
   """Get Users Profile"""
   GetUserProfile(
     """Find User with unique username"""
     username: String!
   ): User
+
+  """Get All The Users Who liked Current Photo"""
+  GetUsersWhoLikedPhoto(photoId: Int!): [User]
   SearchPhoto(data: SearchUsersInput!): [Photo]
   SearchUser(data: SearchUsersInput!): [User]
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
@@ -135,10 +160,11 @@ scalar Upload
 
 input UploadPhotoInput {
   caption: String
-  photo: String!
+  photo: Upload!
 }
 
 type User {
+  Comment: [Comment]
   FollowersCount: Int
   FollowingCount: Int
   Hashtags: [HashTag]

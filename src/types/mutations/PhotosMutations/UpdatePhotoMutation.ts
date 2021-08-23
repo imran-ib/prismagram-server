@@ -37,12 +37,13 @@ export const UpdatePhotoMutation = (t: ObjectDefinitionBlock<'Mutation'>) => {
             // @ts-ignore
             hashtag: {
               disconnect: Photo.hashtag,
-              ...(hashtags!.length > 0 && {
-                connectOrCreate: hashtags!.map((tag: String) => ({
-                  where: { hashtag: tag },
-                  create: { hashtag: tag },
-                })),
-              }),
+              ...(hashtags &&
+                hashtags!.length > 0 && {
+                  connectOrCreate: hashtags!.map((tag: String) => ({
+                    where: { hashtag: tag },
+                    create: { hashtag: tag },
+                  })),
+                }),
             },
           },
         })

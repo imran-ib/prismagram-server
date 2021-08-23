@@ -2,6 +2,7 @@ import { createWriteStream } from 'fs'
 import { arg, nonNull, stringArg } from 'nexus'
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks'
 import { Context } from '../../../context'
+import { Uploader } from '../../../shared/Shared.utls'
 import { getUserId, Hash } from '../../../utils'
 import { UpdateProfileInput } from '../../ObjectTypes'
 
@@ -19,18 +20,19 @@ export const UpdateUsersProfiles = (t: ObjectDefinitionBlock<'Mutation'>) => {
     resolve: async (_, args, ctx: Context) => {
       try {
         const id = getUserId(ctx)
-        let localAvatarUrl = null
+        let AvatarUrl
         const { email, firstName, lastName, password, username, bio, avatar } =
           args.data
         if (avatar) {
-          const { filename, createReadStream } = await avatar
-          const localFilename = `${id}-${Date.now()}-${filename}`
-          const readStream = createReadStream()
-          const writStream = createWriteStream(
-            process.cwd() + '/src/uploads/' + localFilename,
-          )
-          readStream.pipe(writStream)
-          localAvatarUrl = `${process.env.BACKEND_URL}/static/${localFilename}`
+          AvatarUrl = await Uploader(avatar, id, 'Avatars')
+          // const { filename, createReadStream } = await avatar
+          // const localFilename = `${id}-${Date.now()}-${filename}`
+          // const readStream = createReadStream()
+          // const writStream = createWriteStream(
+          //   process.cwd() + '/src/uploads/' + localFilename,
+          // )
+          // readStream.pipe(writStream)
+          // AvatarUrl = `${process.env.BACKEND_URL}/static/${localFilename}`
         }
         // if user is updating password hash the password
         // check new password
@@ -51,7 +53,7 @@ export const UpdateUsersProfiles = (t: ObjectDefinitionBlock<'Mutation'>) => {
             lastName: lastName ? lastName : undefined,
             username: username ? username : undefined,
             bio: bio ? bio : undefined,
-            avatar: avatar ? localAvatarUrl : undefined,
+            avatar: avatar ? AvatarUrl : undefined,
             ...(HashedPassword && { password: HashedPassword }),
           },
         })

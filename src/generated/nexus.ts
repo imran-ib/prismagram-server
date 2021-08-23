@@ -77,7 +77,7 @@ export interface NexusGenInputs {
   }
   UploadPhotoInput: { // input type
     caption?: string | null; // String
-    photo: string; // String!
+    photo: NexusGenScalars['Upload']; // Upload!
   }
   UserCreateInput: { // input type
     email: string; // String!
@@ -116,6 +116,14 @@ export interface NexusGenObjects {
     UAT?: string | null; // String
     user?: NexusGenRootTypes['User'] | null; // User
   }
+  Comment: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    payload: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user?: NexusGenRootTypes['User'] | null; // User
+    userId: number; // Int!
+  }
   File: { // root type
     encoding?: string | null; // String
     filename?: string | null; // String
@@ -144,6 +152,7 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Photo: { // root type
+    Comment?: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     caption?: string | null; // String
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     file?: string | null; // String
@@ -155,6 +164,7 @@ export interface NexusGenObjects {
   }
   Query: {};
   User: { // root type
+    Comment?: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     Hashtags?: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
     Photos?: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     avatar?: string | null; // String
@@ -183,6 +193,15 @@ export interface NexusGenFieldTypes {
   AuthPayload: { // field return type
     UAT: string | null; // String
     user: NexusGenRootTypes['User'] | null; // User
+  }
+  Comment: { // field return type
+    IsMine: boolean | null; // Boolean
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    payload: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: number; // Int!
   }
   File: { // field return type
     encoding: string | null; // String
@@ -213,16 +232,23 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
+    CreateComment: NexusGenRootTypes['Comment'] | null; // Comment
     CreateUser: NexusGenRootTypes['User'] | null; // User
+    DeleteComment: boolean | null; // Boolean
+    DeletePhoto: boolean | null; // Boolean
     FollowUser: NexusGenRootTypes['User'] | null; // User
     TogglePhotoLike: NexusGenRootTypes['Like'] | null; // Like
     UnFollowUser: NexusGenRootTypes['User'] | null; // User
+    UpdateComment: NexusGenRootTypes['Comment'] | null; // Comment
     UpdatePhoto: NexusGenRootTypes['Photo'] | null; // Photo
     UpdateUsersProfiles: NexusGenRootTypes['User'] | null; // User
     UploadPhoto: NexusGenRootTypes['Photo'] | null; // Photo
     UserLogin: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
   Photo: { // field return type
+    Comment: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
+    CommentCount: number | null; // Int
+    IsMine: boolean | null; // Boolean
     LikeCount: number | null; // Int
     LikedByMe: boolean | null; // Boolean
     caption: string | null; // String
@@ -236,16 +262,20 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     CurrentUser: NexusGenRootTypes['User'] | null; // User
+    Feeds: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     GetFollowersQuery: NexusGenRootTypes['GetFollowersPayload'] | null; // GetFollowersPayload
     GetFollowingQuery: NexusGenRootTypes['GetFollowingPayload'] | null; // GetFollowingPayload
     GetHashtag: NexusGenRootTypes['HashTag'] | null; // HashTag
     GetPhoto: NexusGenRootTypes['Photo'] | null; // Photo
+    GetPhotoComments: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     GetUserProfile: NexusGenRootTypes['User'] | null; // User
+    GetUsersWhoLikedPhoto: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     SearchPhoto: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     SearchUser: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
+    Comment: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     FollowersCount: number | null; // Int
     FollowingCount: number | null; // Int
     Hashtags: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
@@ -268,6 +298,15 @@ export interface NexusGenFieldTypeNames {
   AuthPayload: { // field return type name
     UAT: 'String'
     user: 'User'
+  }
+  Comment: { // field return type name
+    IsMine: 'Boolean'
+    createdAt: 'DateTime'
+    id: 'Int'
+    payload: 'String'
+    updatedAt: 'DateTime'
+    user: 'User'
+    userId: 'Int'
   }
   File: { // field return type name
     encoding: 'String'
@@ -298,16 +337,23 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   Mutation: { // field return type name
+    CreateComment: 'Comment'
     CreateUser: 'User'
+    DeleteComment: 'Boolean'
+    DeletePhoto: 'Boolean'
     FollowUser: 'User'
     TogglePhotoLike: 'Like'
     UnFollowUser: 'User'
+    UpdateComment: 'Comment'
     UpdatePhoto: 'Photo'
     UpdateUsersProfiles: 'User'
     UploadPhoto: 'Photo'
     UserLogin: 'AuthPayload'
   }
   Photo: { // field return type name
+    Comment: 'Comment'
+    CommentCount: 'Int'
+    IsMine: 'Boolean'
     LikeCount: 'Int'
     LikedByMe: 'Boolean'
     caption: 'String'
@@ -321,16 +367,20 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     CurrentUser: 'User'
+    Feeds: 'Photo'
     GetFollowersQuery: 'GetFollowersPayload'
     GetFollowingQuery: 'GetFollowingPayload'
     GetHashtag: 'HashTag'
     GetPhoto: 'Photo'
+    GetPhotoComments: 'Comment'
     GetUserProfile: 'User'
+    GetUsersWhoLikedPhoto: 'User'
     SearchPhoto: 'Photo'
     SearchUser: 'User'
     users: 'User'
   }
   User: { // field return type name
+    Comment: 'Comment'
     FollowersCount: 'Int'
     FollowingCount: 'Int'
     Hashtags: 'HashTag'
@@ -357,8 +407,18 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    CreateComment: { // args
+      payload: string; // String!
+      photoId: number; // Int!
+    }
     CreateUser: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
+    }
+    DeleteComment: { // args
+      id: number; // Int!
+    }
+    DeletePhoto: { // args
+      id: number; // Int!
     }
     FollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
@@ -368,6 +428,10 @@ export interface NexusGenArgTypes {
     }
     UnFollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
+    }
+    UpdateComment: { // args
+      commentId: number; // Int!
+      payload: string; // String!
     }
     UpdatePhoto: { // args
       caption?: string | null; // String
@@ -384,6 +448,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    Feeds: { // args
+      cursor: number; // Int!
+    }
     GetFollowersQuery: { // args
       data: NexusGenInputs['GetFollowUserInput']; // GetFollowUserInput!
     }
@@ -397,8 +464,15 @@ export interface NexusGenArgTypes {
     GetPhoto: { // args
       id: number; // Int!
     }
+    GetPhotoComments: { // args
+      cursor?: number | null; // Int
+      photoId: number; // Int!
+    }
     GetUserProfile: { // args
       username: string; // String!
+    }
+    GetUsersWhoLikedPhoto: { // args
+      photoId: number; // Int!
     }
     SearchPhoto: { // args
       data: NexusGenInputs['SearchUsersInput']; // SearchUsersInput!

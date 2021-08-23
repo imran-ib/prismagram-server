@@ -5,6 +5,9 @@ import { SearchUserQuery } from './UserQueries/SearchUsersQuery'
 import { GetPhotoQuery } from './PhotoQueries/GetPhoto'
 import { SearchPhotoQuery } from './PhotoQueries/SearchPhotoQuery'
 import { GetHashtagsQuery } from './HashTagsQueries/GetHashtagsQuery'
+import { GetUsersWhoLikedPhoto } from './PhotoQueries/GetUsersWhoLikedPhoto'
+import { FeedsQuery } from './FeedsQuery/FeedsQuery'
+import {GetPhotoComments} from './PhotoQueries/GetPhotoComments'
 
 export const Query = queryType({
   definition(t) {
@@ -15,5 +18,8 @@ export const Query = queryType({
     GetPhotoQuery(t)
     GetHashtagsQuery(t)
     SearchPhotoQuery(t)
+    GetUsersWhoLikedPhoto(t)
+    FeedsQuery(t)
+    GetPhotoComments(t)
   },
 })

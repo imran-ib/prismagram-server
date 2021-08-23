@@ -15,6 +15,7 @@ export const User = objectType({
     t.nullable.string('avatar')
     // TODO implement pagination on users photo
     t.list.field('Photos', { type: 'Photo' })
+    t.list.field('Comment', { type: 'Comment' })
     t.list.field('Hashtags', { type: 'HashTag' })
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
