@@ -73,3 +73,11 @@ export const UploadPhotoInput = inputObjectType({
     t.nullable.string('caption')
   },
 })
+export const SendMessageInput = inputObjectType({
+  name: 'SendMessageInput',
+  definition(t) {
+    t.nullable.int('roomId')
+    t.nullable.int('senderId')
+    t.nonNull.string('payload')
+  },
+})

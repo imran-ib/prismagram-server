@@ -7,6 +7,7 @@ const rules = {
     const userId = getUserId(context)
     const user = await context.prisma.user.findFirst({
       where: { id: userId },
+      select: { id: true },
     })
     if (!user) return new Error(`User not Found`)
     return Boolean(userId)
@@ -29,6 +30,8 @@ const rules = {
 export const permissions = shield({
   Query: {
     Feeds: rules.isAuthenticatedUser,
+    GetRooms: rules.isAuthenticatedUser,
+    GetRoom: rules.isAuthenticatedUser,
     // me: rules.isAuthenticatedUser,
     // draftsByUser: rules.isAuthenticatedUser,
     // postById: rules.isAuthenticatedUser,
@@ -43,6 +46,8 @@ export const permissions = shield({
     UpdateComment: rules.isAuthenticatedUser,
     DeleteComment: rules.isAuthenticatedUser,
     DeletePhoto: rules.isAuthenticatedUser,
+    CreateMessage: rules.isAuthenticatedUser,
+    MarkMessageRead: rules.isAuthenticatedUser,
     UpdatePhoto: and(rules.isAuthenticatedUser, rules.isPhotoOwner),
   },
 })

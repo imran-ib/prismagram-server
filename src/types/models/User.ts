@@ -13,6 +13,20 @@ export const User = objectType({
     t.nonNull.string('username')
     t.nullable.string('bio')
     t.nullable.string('avatar')
+    t.nullable.string('lastSeen')
+    t.nullable.string('lastTyped')
+    t.field('isActive', {
+      type: 'Boolean',
+      resolve: async (root, _args, ctx: Context) => {
+        const add_minutes = function (dt: any, minutes: any) {
+          return new Date(dt.getTime() + minutes * 6000)
+        }
+        // One Minute
+        const LastSeen = add_minutes(root.lastSeen, 10).toString()
+        const Now = new Date().toString()
+        return LastSeen > Now
+      },
+    })
     // TODO implement pagination on users photo
     t.list.field('Photos', { type: 'Photo' })
     t.list.field('Comment', { type: 'Comment' })
@@ -88,5 +102,15 @@ export const User = objectType({
         }
       },
     })
+    // TODO Remove
+    t.field('Now', {
+      type: 'String',
+      resolve: () => {
+        return new Date()
+      },
+    })
   },
 })
+
+// Last Seen 1000 + 500
+// Now     >   1200

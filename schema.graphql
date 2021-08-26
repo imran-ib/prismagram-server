@@ -69,15 +69,27 @@ type Like {
   updatedAt: DateTime!
 }
 
+type Message {
+  Room: Room!
+  createdAt: DateTime!
+  id: Int!
+  payload: String!
+  read: Boolean!
+  updatedAt: DateTime!
+  user: User
+}
+
 type Mutation {
   """Create New Comment For Photo"""
   CreateComment(payload: String!, photoId: Int!): Comment
+  CreateMessage(data: SendMessageInput!): Message
   CreateUser(data: UserCreateInput!): User
   DeleteComment(id: Int!): Boolean
   DeletePhoto(id: Int!): Boolean
 
   """Follow Users"""
   FollowUser(data: FollowUserInput!): User
+  MarkMessageRead(messageId: Int!): Message
 
   """"""
   TogglePhotoLike(photoId: Int!): Like
@@ -123,6 +135,10 @@ type Query {
   GetHashtag(hashtag: String!, page: Int): HashTag
   GetPhoto(id: Int!): Photo
   GetPhotoComments(cursor: Int, photoId: Int!): [Comment]
+  GetRoom(roomId: Int!): Room
+
+  """Get Chat Rooms For the Logged in User"""
+  GetRooms: [Room]
 
   """Get Users Profile"""
   GetUserProfile(
@@ -137,11 +153,30 @@ type Query {
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
 }
 
+type Room {
+  Message: [Message]
+  UnReadMessageCount: Int
+  createdAt: DateTime!
+  id: Int!
+  updatedAt: DateTime!
+  user: [User]
+}
+
 input SearchUsersInput {
   cursor: Int
 
   """Provide Text To Search Users From Database"""
   term: String!
+}
+
+input SendMessageInput {
+  payload: String!
+  roomId: Int
+  senderId: Int
+}
+
+type Subscription {
+  NewMessage: Message
 }
 
 """"""
@@ -170,6 +205,7 @@ type User {
   Hashtags: [HashTag]
   ISFollowing: Boolean
   IsMe: Boolean
+  Now: String
   Photos: [Photo]
   avatar: String
   bio: String
@@ -177,7 +213,10 @@ type User {
   email: String!
   firstName: String!
   id: Int!
+  isActive: Boolean
   lastName: String
+  lastSeen: String
+  lastTyped: String
   updatedAt: DateTime!
   username: String!
 }

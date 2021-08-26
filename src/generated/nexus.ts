@@ -66,6 +66,11 @@ export interface NexusGenInputs {
     cursor?: number | null; // Int
     term: string; // String!
   }
+  SendMessageInput: { // input type
+    payload: string; // String!
+    roomId?: number | null; // Int
+    senderId?: number | null; // Int
+  }
   UpdateUsersProfile: { // input type
     avatar?: NexusGenScalars['Upload'] | null; // Upload
     bio?: string | null; // String
@@ -150,6 +155,14 @@ export interface NexusGenObjects {
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
+  Message: { // root type
+    Room: NexusGenRootTypes['Room']; // Room!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    payload: string; // String!
+    read: boolean; // Boolean!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Mutation: {};
   Photo: { // root type
     Comment?: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
@@ -163,6 +176,12 @@ export interface NexusGenObjects {
     userId: number; // Int!
   }
   Query: {};
+  Room: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  Subscription: {};
   User: { // root type
     Comment?: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     Hashtags?: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
@@ -174,6 +193,8 @@ export interface NexusGenObjects {
     firstName: string; // String!
     id: number; // Int!
     lastName?: string | null; // String
+    lastSeen?: string | null; // String
+    lastTyped?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username: string; // String!
   }
@@ -231,12 +252,23 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
+  Message: { // field return type
+    Room: NexusGenRootTypes['Room']; // Room!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    payload: string; // String!
+    read: boolean; // Boolean!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Mutation: { // field return type
     CreateComment: NexusGenRootTypes['Comment'] | null; // Comment
+    CreateMessage: NexusGenRootTypes['Message'] | null; // Message
     CreateUser: NexusGenRootTypes['User'] | null; // User
     DeleteComment: boolean | null; // Boolean
     DeletePhoto: boolean | null; // Boolean
     FollowUser: NexusGenRootTypes['User'] | null; // User
+    MarkMessageRead: NexusGenRootTypes['Message'] | null; // Message
     TogglePhotoLike: NexusGenRootTypes['Like'] | null; // Like
     UnFollowUser: NexusGenRootTypes['User'] | null; // User
     UpdateComment: NexusGenRootTypes['Comment'] | null; // Comment
@@ -268,11 +300,24 @@ export interface NexusGenFieldTypes {
     GetHashtag: NexusGenRootTypes['HashTag'] | null; // HashTag
     GetPhoto: NexusGenRootTypes['Photo'] | null; // Photo
     GetPhotoComments: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
+    GetRoom: NexusGenRootTypes['Room'] | null; // Room
+    GetRooms: Array<NexusGenRootTypes['Room'] | null> | null; // [Room]
     GetUserProfile: NexusGenRootTypes['User'] | null; // User
     GetUsersWhoLikedPhoto: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     SearchPhoto: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     SearchUser: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  Room: { // field return type
+    Message: Array<NexusGenRootTypes['Message'] | null> | null; // [Message]
+    UnReadMessageCount: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+  }
+  Subscription: { // field return type
+    NewMessage: NexusGenRootTypes['Message'] | null; // Message
   }
   User: { // field return type
     Comment: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
@@ -281,6 +326,7 @@ export interface NexusGenFieldTypes {
     Hashtags: Array<NexusGenRootTypes['HashTag'] | null> | null; // [HashTag]
     ISFollowing: boolean | null; // Boolean
     IsMe: boolean | null; // Boolean
+    Now: string | null; // String
     Photos: Array<NexusGenRootTypes['Photo'] | null> | null; // [Photo]
     avatar: string | null; // String
     bio: string | null; // String
@@ -288,7 +334,10 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     firstName: string; // String!
     id: number; // Int!
+    isActive: boolean | null; // Boolean
     lastName: string | null; // String
+    lastSeen: string | null; // String
+    lastTyped: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     username: string; // String!
   }
@@ -336,12 +385,23 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     updatedAt: 'DateTime'
   }
+  Message: { // field return type name
+    Room: 'Room'
+    createdAt: 'DateTime'
+    id: 'Int'
+    payload: 'String'
+    read: 'Boolean'
+    updatedAt: 'DateTime'
+    user: 'User'
+  }
   Mutation: { // field return type name
     CreateComment: 'Comment'
+    CreateMessage: 'Message'
     CreateUser: 'User'
     DeleteComment: 'Boolean'
     DeletePhoto: 'Boolean'
     FollowUser: 'User'
+    MarkMessageRead: 'Message'
     TogglePhotoLike: 'Like'
     UnFollowUser: 'User'
     UpdateComment: 'Comment'
@@ -373,11 +433,24 @@ export interface NexusGenFieldTypeNames {
     GetHashtag: 'HashTag'
     GetPhoto: 'Photo'
     GetPhotoComments: 'Comment'
+    GetRoom: 'Room'
+    GetRooms: 'Room'
     GetUserProfile: 'User'
     GetUsersWhoLikedPhoto: 'User'
     SearchPhoto: 'Photo'
     SearchUser: 'User'
     users: 'User'
+  }
+  Room: { // field return type name
+    Message: 'Message'
+    UnReadMessageCount: 'Int'
+    createdAt: 'DateTime'
+    id: 'Int'
+    updatedAt: 'DateTime'
+    user: 'User'
+  }
+  Subscription: { // field return type name
+    NewMessage: 'Message'
   }
   User: { // field return type name
     Comment: 'Comment'
@@ -386,6 +459,7 @@ export interface NexusGenFieldTypeNames {
     Hashtags: 'HashTag'
     ISFollowing: 'Boolean'
     IsMe: 'Boolean'
+    Now: 'String'
     Photos: 'Photo'
     avatar: 'String'
     bio: 'String'
@@ -393,7 +467,10 @@ export interface NexusGenFieldTypeNames {
     email: 'String'
     firstName: 'String'
     id: 'Int'
+    isActive: 'Boolean'
     lastName: 'String'
+    lastSeen: 'String'
+    lastTyped: 'String'
     updatedAt: 'DateTime'
     username: 'String'
   }
@@ -411,6 +488,9 @@ export interface NexusGenArgTypes {
       payload: string; // String!
       photoId: number; // Int!
     }
+    CreateMessage: { // args
+      data: NexusGenInputs['SendMessageInput']; // SendMessageInput!
+    }
     CreateUser: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
     }
@@ -422,6 +502,9 @@ export interface NexusGenArgTypes {
     }
     FollowUser: { // args
       data: NexusGenInputs['FollowUserInput']; // FollowUserInput!
+    }
+    MarkMessageRead: { // args
+      messageId: number; // Int!
     }
     TogglePhotoLike: { // args
       photoId: number; // Int!
@@ -467,6 +550,9 @@ export interface NexusGenArgTypes {
     GetPhotoComments: { // args
       cursor?: number | null; // Int
       photoId: number; // Int!
+    }
+    GetRoom: { // args
+      roomId: number; // Int!
     }
     GetUserProfile: { // args
       username: string; // String!

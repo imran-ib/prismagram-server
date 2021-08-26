@@ -7,6 +7,7 @@ import { UpdatePhotoMutation } from '../mutations/PhotosMutations/UpdatePhotoMut
 import { TogglePhotoLikeMutation } from '../mutations/PhotosMutations/TogglePhotoLikeMutation'
 import { CommentsMutations } from '../mutations/CommentsMutations.ts'
 import { DeletePhotoMutation } from '../mutations/PhotosMutations/DeletePhotoMutation'
+import { MessagesMutations } from '../mutations/MessagesMutations/MessagesMutations'
 
 export const UserMutation = mutationType({
   definition(t) {
@@ -18,5 +19,6 @@ export const UserMutation = mutationType({
     TogglePhotoLikeMutation(t)
     CommentsMutations(t)
     DeletePhotoMutation(t)
+    MessagesMutations(t)
   },
 })

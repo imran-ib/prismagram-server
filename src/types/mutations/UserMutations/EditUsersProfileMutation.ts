@@ -1,4 +1,3 @@
-import { createWriteStream } from 'fs'
 import { arg, nonNull, stringArg } from 'nexus'
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks'
 import { Context } from '../../../context'
